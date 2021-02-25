@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/literallymarvellous/unit-testing-marvel.svg?branch=master)](https://travis-ci.com/literallymarvellous/unit-testing-marvel)
-[!
+[![![codecov](https://codecov.io/gh/literallymarvellous/unit-testing-marvel/branch/master/graph/badge.svg?token=EdTxHPsyq7)](https://codecov.io/gh/literallymarvellous/unit-testing-marvel)
 
 This repository holds the code for the DataCamp course Unit Testing for Data Science in Python.
 s repo using pip before running pytest. Otherwise, you may get ImportErrors.

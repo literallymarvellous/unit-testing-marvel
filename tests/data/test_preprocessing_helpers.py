@@ -1,7 +1,38 @@
 import pytest
-from unit.data.preprocessing_helpers import row_to_list, convert_to_int, \
-    preprocess, convert_to_int_bug_free, raw_and_clean_data_file, row_to_list_bug_free
+from unit.data.preprocessing_helpers import row_to_list, convert_to_int, preprocess
 from unittest.mock import call
+
+
+@pytest.fixture
+def raw_and_clean_data_file(tmpdir):
+    raw_data_file_path = 'raw.txt'
+    clean_data_file_path = 'clean.txt'
+    with open(raw_data_file_path, 'w') as f:
+        f.write('1,801\t201,411\n'
+                '1,767565,112\n'
+                '2,002\t333,209\n'
+                '1990\t782,911\n'
+                '1,285\t389129\n')
+    yield raw_data_file_path, clean_data_file_path
+
+
+def row_to_list_bug_free(row):
+    return_values = {
+                '1,801\t201,411\n': ['1,801', '201,411'],
+                '1,767565,112\n': None,
+                '2,002\t333,209\n' : ['2,002', '333,209'],
+                '1990\t782,911\n' : ['1990', '782,911'],
+                '1,285\t3899129\n' : ['1,285', '389129']
+                    }
+    return return_values[row]
+
+
+# Define a function convert_to_int_bug_free
+def convert_to_int_bug_free(comma_separated_integer_string):
+    # Assign to the dictionary holding the correct return values
+    return_values = {"1,801": 1801, "201,411": 201411, "2,002": 2002, "333,209": 333209, "1990": None, "782,911": 782911, "1,285": 1285, "389129": None}
+    # Return the correct result using the dictionary return_values
+    return return_values[comma_separated_integer_string]
 
 
 class TestRowToList(object):
@@ -88,7 +119,7 @@ class TestPreprocess(object):
 
     def test_on_raw_data_mock2(self, raw_and_clean_data_file, mocker):
         raw_path, clean_path = raw_and_clean_data_file
-        row_to_list_mock = mocker.patch('src.data.preprocessing_helpers.row_to_list',
+        row_to_list_mock = mocker.patch('unit.data.preprocessing_helpers.row_to_list',
                                         side_efffect=row_to_list_bug_free)
         preprocess(raw_path, clean_path)
         assert row_to_list_mock.call_args_list == [
@@ -103,7 +134,7 @@ class TestPreprocess(object):
     def test_on_raw_data_mock(self, raw_and_clean_data_file, mocker):
         raw_path, clean_path = raw_and_clean_data_file
         # Replace the dependency with the bug-free mock
-        convert_to_int_mock = mocker.patch("src.data.preprocessing_helpers.convert_to_int",
+        convert_to_int_mock = mocker.patch("unit.data.preprocessing_helpers.convert_to_int",
                                            side_effect=convert_to_int_bug_free)
         preprocess(raw_path, clean_path)
         # Check if preprocess() called the dependency correctly

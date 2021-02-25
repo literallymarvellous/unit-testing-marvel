@@ -1,5 +1,5 @@
 import pytest
-from unit.data.preprocessing_helpers import row_to_list, convert_to_int, preprocess
+from data.preprocessing_helpers import row_to_list, convert_to_int, preprocess
 from unittest.mock import call
 
 
@@ -119,7 +119,7 @@ class TestPreprocess(object):
 
     def test_on_raw_data_mock2(self, raw_and_clean_data_file, mocker):
         raw_path, clean_path = raw_and_clean_data_file
-        row_to_list_mock = mocker.patch('unit.data.preprocessing_helpers.row_to_list',
+        row_to_list_mock = mocker.patch('data.preprocessing_helpers.row_to_list',
                                         side_efffect=row_to_list_bug_free)
         preprocess(raw_path, clean_path)
         assert row_to_list_mock.call_args_list == [
@@ -134,7 +134,7 @@ class TestPreprocess(object):
     def test_on_raw_data_mock(self, raw_and_clean_data_file, mocker):
         raw_path, clean_path = raw_and_clean_data_file
         # Replace the dependency with the bug-free mock
-        convert_to_int_mock = mocker.patch("unit.data.preprocessing_helpers.convert_to_int",
+        convert_to_int_mock = mocker.patch("data.preprocessing_helpers.convert_to_int",
                                            side_effect=convert_to_int_bug_free)
         preprocess(raw_path, clean_path)
         # Check if preprocess() called the dependency correctly

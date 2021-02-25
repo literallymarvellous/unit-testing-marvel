@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from math import sin, cos, pi
-from unit.models.train import split_into_training_and_testing_sets, train_model, \
+from models.train import split_into_training_and_testing_sets, train_model, \
     model_test
 
 

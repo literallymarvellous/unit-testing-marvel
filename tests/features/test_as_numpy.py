@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import os
-from unit.features.as_numpy import get_data_as_numpy_array
+from features.as_numpy import get_data_as_numpy_array
 
 
 class TestGetDataAsNumpyArray(object):
